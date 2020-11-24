@@ -1,8 +1,7 @@
 def main():
     for i in range(1, 11):
         fileName = 'PALIN' + str(i) + '.IN'
-        f = open('Inputs/' + fileName, 'r')
-        if f.mode == 'r':
+        with open('Inputs/' + fileName, 'r') as f:
             lines = f.readlines()
             minChars = evalString(int(lines[0]), lines[1])
 
@@ -11,22 +10,20 @@ def main():
 
 def evalString(stringLength, stringValue):
     changes = 0
-    while stringLength > 1:
-        # print(stringValue)
-        y = stringLength - 1
-        while stringLength > 1 and stringValue[0] == stringValue[y]:
-            stringValue = stringValue[1:y]
-            stringLength -= 2
-            y = stringLength - 1
+    x = 0
+    y = stringLength - 1
+    while x < y:
+        while x < y and stringValue[x] == stringValue[y]:
+            x += 1
+            y -= 1
 
-        if stringLength > 1:
-            if stringValue[1] == stringValue[y]:
-                stringValue = stringValue[1:]
+        if x < y:
+            if stringValue[x + 1] == stringValue[y]:
+                x += 1
             else:
-                stringValue = stringValue[:y]
+                y -= 1
 
             changes += 1
-            stringLength -= 1
 
     return changes
 
